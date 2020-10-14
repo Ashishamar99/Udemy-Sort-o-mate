@@ -1,0 +1,1 @@
+This folder contains the initial designs made for the product, but later I realised that if these were implemented then the application would need continuous net connection. It is better to scrape the data (course links) and store them in a file (all_my_links_file.txt) for later access.
