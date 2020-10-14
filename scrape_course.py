@@ -1,29 +1,4 @@
-"""
-ZOMBIE CODE ->
-# import re
-
->>> char1 = '('
->>> char2 = ')'
->>> mystr = "mystring(123234sample)"
->>> print mystr[mystr.find(char1)+1 : mystr.find(char2)]
-123234sample
-
-
-
->>> import re
->>> mystr
-'mystring->123234sample->'
->>> findsub='->'
->>> res = [i.start() for i in re.finditer(findsub,mystr)]
->>> res
-[8, 22]
->>> mystr[8:22]
-'->123234sample'
->>> mystr[8+2:22+2]
-'123234sample->'
->>> mystr[8+2:22]
-'123234sample'
-"""
+# Trying to import and if missing, installing them and importing them.
 for import_tries in range(0,2):
 	try:
 		from bs4 import BeautifulSoup
