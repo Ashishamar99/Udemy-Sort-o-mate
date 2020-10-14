@@ -1,13 +1,15 @@
-# import re
 """
+ZOMBIE CODE ->
+# import re
+
 >>> char1 = '('
 >>> char2 = ')'
 >>> mystr = "mystring(123234sample)"
 >>> print mystr[mystr.find(char1)+1 : mystr.find(char2)]
 123234sample
-"""
 
-"""
+
+
 >>> import re
 >>> mystr
 'mystring->123234sample->'
@@ -88,8 +90,12 @@ class scrape_course:
 		return existing_course_dictionary
 
 class generate_csv():
-	def __init__(self, my_dictionary):
-		
+	def __init__(self, my_deleted_dictionary, my_filtered_courses_dictionary):
+		data_frame = pd.DataFrame(my_deleted_dictionary)
+		data_frame.to_csv('deleted_courses.csv')
+
+		data_frame = pd.DataFrame(my_filtered_courses_dictionary)
+		data_frame.to_csv('my_filtered_courses.csv')
 
 if __name__ == '__main__':
 	scrape_course = scrape_course()
@@ -98,3 +104,6 @@ if __name__ == '__main__':
 	filter_rating = float(input('Enter the minimum rating you want the course to be: '))
 	print(filter_rating)
 	existing_course_dictionary = scrape_course.fetch_existing_course_link_info(filter_rating)
+
+	#Dumping the data to csv files
+	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)
