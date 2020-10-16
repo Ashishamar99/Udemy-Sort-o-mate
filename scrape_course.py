@@ -66,8 +66,37 @@ class scrape_course:
 					pass
 				else:
 					#scrape page info, check if rating is >= filter_rating , if it is, then scrape info and keep in list 
-					#scrape title, rating, total ratings, total students, total time of course length, link
-					pass
+					#scrape data - title, rating, total ratings, total students, total time of course length, link
+					my_page = requests.get(single_link)
+					soup = BeautifulSoup(my_page.content, "lxml")
+
+					course_rating = soup.find(attrs={"data-purpose":"rating-number"}).string #Fetching the course rating.
+					course_rating = float(course_rating)
+					print(course_rating, type(course_rating))
+
+					if filter_rating >= course_rating:
+						course_title = soup.h1.string #Fetching the course title.
+						total_ratings = soup.find(attrs={"data-purpose":"rating"}).text #Fetching total ratings.
+						total_students = soup.find(attrs={"data-purpose":"enrollment"}).text #Fetching total students.
+						total_time = soup.find(attrs={"data-purpose":"video-content-length"}).text #Fetching total course length.
+
+						#Appending the scraped data to the lists.
+						existing_course_titles.append(course_title)
+						existing_course_ratings.append(course_rating)
+						existing_course_total_ratings.append(total_ratings)
+						existing_course_total_students.append(total_students)
+						existing_course_length.append(total_time)
+						existing_course_links.append(single_link)
+						
+					else:
+						pass
+
+		existing_course_dictionary = {'Title':existing_course_titles,
+									  'Ratings':existing_course_ratings,
+									  'Total Ratings':existing_course_total_ratings,
+									  'Total Students':existing_course_total_students,
+									  'Total Length':existing_course_length,
+									  'Link':existing_course_links}
 		return existing_course_dictionary
 
 class generate_csv():
@@ -83,7 +112,7 @@ if __name__ == '__main__':
 	
 	deleted_course_dictionary = scrape_course.fetch_deleted_link_info()
 	filter_rating = float(input('Enter the minimum rating you want the course to be: '))
-	print(filter_rating)
+	print(f'Entered rating is: {filter_rating}')
 	existing_course_dictionary = scrape_course.fetch_existing_course_link_info(filter_rating)
 
 	#Dumping the data to csv files

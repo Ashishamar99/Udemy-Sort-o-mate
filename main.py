@@ -1,6 +1,7 @@
 from data import username, login_link, password, courses_link_sorted
 import time
 from itertools import zip_longest as zp
+from scrape_course import *
 
 # Trying to import modules, if missing then install them and import them again.
 for import_tries in range(0,2):
@@ -100,7 +101,6 @@ if __name__ == '__main__':
 	all_pages_list = my_account.fetch_all_pages(int(page) + 1)
 	all_courses_links,deleted_course_links,existing_course_links,image_to_details_dict = my_account.scrape_courses_links(all_pages_list)
 
-
 	"""Start Dev"""
 	file_count = 0
 	my_file_counter = []
@@ -143,3 +143,13 @@ if __name__ == '__main__':
 			for one_deleted_link in deleted_course_links:
 				file.write(f'Title -> {one_deleted_link} -> {deleted_course_links[one_deleted_link]}' )
 				file.write('\n')
+
+	#Start scraping the stored links.
+	scrape_course = scrape_course()
+	deleted_course_dictionary = scrape_course.fetch_deleted_link_info()
+	filter_rating = float(input('Enter the minimum rating you want the course to be: '))
+	print(filter_rating)
+	existing_course_dictionary = scrape_course.fetch_existing_course_link_info(filter_rating)
+
+	#Dumping the data to csv files
+	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)
