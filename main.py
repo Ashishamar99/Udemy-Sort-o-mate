@@ -146,10 +146,10 @@ if __name__ == '__main__':
 
 	#Start scraping the stored links.
 	scrape_course = scrape_course()
-	deleted_course_dictionary = scrape_course.fetch_deleted_link_info()
+	
 	filter_rating = float(input('Enter the minimum rating you want the course to be: '))
-	print(filter_rating)
-	existing_course_dictionary = scrape_course.fetch_existing_course_link_info(filter_rating)
+	print(f'Entered rating is: {filter_rating}')
+	deleted_course_dictionary, existing_course_dictionary = scrape_course.fetch_link_info(filter_rating)
 
 	#Dumping the data to csv files
 	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)

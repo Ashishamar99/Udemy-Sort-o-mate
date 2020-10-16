@@ -18,12 +18,12 @@ def fetch_text_between_braces(my_string):
 	return my_filtered_text
 
 class scrape_course:
-	# deleted course info 
+	# Deleted course info.
 	deleted_course_titles = []
 	deleted_course_links = []
 	deleted_course_dictionary = {}
 
-	#existing course info
+	# Existing course info.
 	existing_course_titles = []
 	existing_course_links = []
 	existing_course_ratings = []
@@ -35,23 +35,13 @@ class scrape_course:
 	def __init__(self):
 		pass
 
-	def fetch_deleted_link_info(self):
+	def fetch_link_info(self, filter_rating):
+		# Declaring and instantiating deleted course info.
 		deleted_course_titles = self.deleted_course_titles
 		deleted_course_links = self.deleted_course_links
 		deleted_course_dictionary = self.deleted_course_dictionary
 
-		with open('all_my_links_file.txt', mode = 'r', encoding = 'utf-8') as links_file:
-			for single_link in links_file:
-				if 'draft' in single_link:
-					deleted_course_titles.append(single_link.split('->')[1])
-					deleted_course_links.append(single_link.split('->')[2])
-				else:
-					pass
-
-		deleted_course_dictionary = {'Title':deleted_course_titles, 'Link':deleted_course_links}
-		return deleted_course_dictionary
-
-	def fetch_existing_course_link_info(self, filter_rating):
+		# Declaring and instantiating existing course info.
 		existing_course_titles = self.existing_course_titles
 		existing_course_links = self.existing_course_links
 		existing_course_ratings = self.existing_course_ratings
@@ -63,7 +53,9 @@ class scrape_course:
 		with open('all_my_links_file.txt', mode = 'r', encoding = 'utf-8') as links_file:
 			for single_link in links_file:
 				if 'draft' in single_link:
-					pass
+					deleted_course_titles.append(single_link.split('->')[1])
+					deleted_course_links.append(single_link.split('->')[2])
+				
 				else:
 					#scrape page info, check if rating is >= filter_rating , if it is, then scrape info and keep in list 
 					#scrape data - title, rating, total ratings, total students, total time of course length, link
@@ -87,17 +79,20 @@ class scrape_course:
 						existing_course_total_students.append(total_students)
 						existing_course_length.append(total_time)
 						existing_course_links.append(single_link)
-						
+
 					else:
 						pass
 
+		# Creating the dictionaries for existing courses and deleted courses using the scraped data and returning them.
+		deleted_course_dictionary = {'Title':deleted_course_titles, 'Link':deleted_course_links}
 		existing_course_dictionary = {'Title':existing_course_titles,
 									  'Ratings':existing_course_ratings,
 									  'Total Ratings':existing_course_total_ratings,
 									  'Total Students':existing_course_total_students,
 									  'Total Length':existing_course_length,
 									  'Link':existing_course_links}
-		return existing_course_dictionary
+
+		return (deleted_course_dictionary, existing_course_dictionary)
 
 class generate_csv():
 	def __init__(self, my_deleted_dictionary, my_filtered_courses_dictionary):
@@ -110,10 +105,9 @@ class generate_csv():
 if __name__ == '__main__':
 	scrape_course = scrape_course()
 	
-	deleted_course_dictionary = scrape_course.fetch_deleted_link_info()
 	filter_rating = float(input('Enter the minimum rating you want the course to be: '))
 	print(f'Entered rating is: {filter_rating}')
-	existing_course_dictionary = scrape_course.fetch_existing_course_link_info(filter_rating)
+	deleted_course_dictionary, existing_course_dictionary = scrape_course.fetch_link_info(filter_rating)
 
 	#Dumping the data to csv files
 	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)
