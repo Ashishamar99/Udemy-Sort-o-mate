@@ -11,6 +11,12 @@ for import_tries in range(0,2):
 		os.system('pip install requests')
 		os.system('pip install pandas')
 
+def fetch_text_between_braces(my_string):
+	start = '('
+	end = ')'
+	my_filtered_text = my_string[my_string.find(start)+1 : my_string.find(end)]
+	return my_filtered_text
+
 class scrape_course:
 	# deleted course info 
 	deleted_course_titles = []
