@@ -36,6 +36,7 @@ class scrape_course:
 		pass
 
 	def fetch_link_info(self, filter_rating):
+		#TODO: Surround with try/catch.
 		# Declaring and instantiating deleted course info.
 		deleted_course_titles = self.deleted_course_titles
 		deleted_course_links = self.deleted_course_links
