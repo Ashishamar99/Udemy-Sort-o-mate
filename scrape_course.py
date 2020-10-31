@@ -36,7 +36,6 @@ class scrape_course:
 		pass
 
 	def fetch_link_info(self, filter_rating):
-		#TODO: Surround with try/catch.
 		# Declaring and instantiating deleted course info.
 		deleted_course_titles = self.deleted_course_titles
 		deleted_course_links = self.deleted_course_links
@@ -52,47 +51,52 @@ class scrape_course:
 		existing_course_dictionary = self.existing_course_dictionary
 
 		with open('all_my_links_file.txt', mode = 'r', encoding = 'utf-8') as links_file:
-			for single_link in links_file:
-				if 'draft' in single_link:
-					deleted_course_titles.append(single_link.split('->')[1])
-					deleted_course_links.append(single_link.split('->')[2])
-				
-				else:
-					#scrape page info, check if rating is >= filter_rating , if it is, then scrape info and keep in list 
-					#scrape data - title, rating, total ratings, total students, total time of course length, link
-					my_page = requests.get(single_link)
-					soup = BeautifulSoup(my_page.content, "lxml")
-
-					course_rating = soup.find(attrs={"data-purpose":"rating-number"}).string #Fetching the course rating.
-					course_rating = float(course_rating)
-					print(course_rating, type(course_rating))
-
-					if filter_rating >= course_rating:
-						course_title = soup.h1.string #Fetching the course title.
-						total_ratings = soup.find(attrs={"data-purpose":"rating"}).text #Fetching total ratings.
-						total_students = soup.find(attrs={"data-purpose":"enrollment"}).text #Fetching total students.
-						total_time = soup.find(attrs={"data-purpose":"video-content-length"}).text #Fetching total course length.
-
-						#Appending the scraped data to the lists.
-						existing_course_titles.append(course_title)
-						existing_course_ratings.append(course_rating)
-						existing_course_total_ratings.append(total_ratings)
-						existing_course_total_students.append(total_students)
-						existing_course_length.append(total_time)
-						existing_course_links.append(single_link)
-
+			try:
+				for single_link in links_file:
+					if 'draft' in single_link:
+						deleted_course_titles.append(single_link.split('->')[1])
+						deleted_course_links.append(single_link.split('->')[2])
 					else:
-						pass
+						#scrape page info, check if rating is >= filter_rating , if it is, then scrape info and keep in list 
+						#scrape data - title, rating, total ratings, total students, total time of course length, link
+						my_page = requests.get(single_link)
+						soup = BeautifulSoup(my_page.content, "lxml")
 
-		# Creating the dictionaries for existing courses and deleted courses using the scraped data and returning them.
-		deleted_course_dictionary = {'Title':deleted_course_titles, 'Link':deleted_course_links}
-		existing_course_dictionary = {'Title':existing_course_titles,
-									  'Ratings':existing_course_ratings,
-									  'Total Ratings':existing_course_total_ratings,
-									  'Total Students':existing_course_total_students,
-									  'Total Length':existing_course_length,
-									  'Link':existing_course_links}
+						course_rating = soup.find(attrs={"data-purpose":"rating-number"}).string #Fetching the course rating.
+						course_rating = float(course_rating)
+						print(course_rating, type(course_rating)) 
 
+						if filter_rating >= course_rating:
+							course_title = soup.h1.string #Fetching the course title.
+							total_ratings = soup.find(attrs={"data-purpose":"rating"}).text #Fetching total ratings.
+							total_students = soup.find(attrs={"data-purpose":"enrollment"}).text #Fetching total students.
+							total_time = soup.find(attrs={"data-purpose":"video-content-length"}).text #Fetching total course length.
+
+							#Appending the scraped data to the lists.
+							existing_course_titles.append(course_title)
+							existing_course_ratings.append(course_rating)
+							existing_course_total_ratings.append(total_ratings)
+							existing_course_total_students.append(total_students)
+							existing_course_length.append(total_time)
+							existing_course_links.append(single_link)
+
+						else:
+							pass
+
+			except Exception as e:
+				raise Exception
+
+			finally:
+				# Creating the dictionaries for existing courses and deleted courses using the scraped data and returning them.
+				deleted_course_dictionary = {'Title':deleted_course_titles, 'Link':deleted_course_links}
+				existing_course_dictionary = {'Title':existing_course_titles,
+											  'Ratings':existing_course_ratings,
+									  		  'Total Ratings':existing_course_total_ratings,
+									  		  'Total Students':existing_course_total_students,
+									  		  'Total Length':existing_course_length,
+									  		  'Link':existing_course_links}
+				print(deleted_course_dictionary)
+				print(existing_course_dictionary)
 		return (deleted_course_dictionary, existing_course_dictionary)
 
 class generate_csv():
