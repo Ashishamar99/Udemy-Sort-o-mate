@@ -1,6 +1,10 @@
 # Udemy-Sort-o-mate
 A filter-scraper bot for your enrolled courses on Udemy.
 
+#### Here are a few References -
+* [An article about this tool.](https://medium.com/@ashishamar1999/how-i-built-a-bot-for-udemy-which-acts-as-a-secondary-filter-for-my-courses-380c41dd0d35)
+* [A demo video of this tool.]()
+
 ----------------------------------------------------------------------------------------------------------------------------------------
 __Note - You must have setup selenium webdriver for this tool to work.__ <br />
 If you need additional help on how to download a matching webdriver [use this tool.](https://github.com/Ashishamar99/WebDriver-Downloader)
