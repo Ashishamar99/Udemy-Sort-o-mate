@@ -3,7 +3,7 @@ A filter-scraper bot for your enrolled courses on Udemy.
 
 #### Here are a few References -
 * [An article about this tool.](https://medium.com/@ashishamar1999/how-i-built-a-bot-for-udemy-which-acts-as-a-secondary-filter-for-my-courses-380c41dd0d35)
-* [A demo video of this tool.]()
+* [A demo video of this tool.](https://www.linkedin.com/posts/ashish-amar-419166a9_python-selenium-udemy-activity-6730178390718062592-cE3Z)
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 __Note - You must have setup selenium webdriver for this tool to work.__ <br />
