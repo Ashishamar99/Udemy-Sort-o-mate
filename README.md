@@ -17,3 +17,5 @@ If you need additional help on how to download a matching webdriver [use this to
 __Note - Along with the rating, you should also be able to see, other information like number of students, total ratings, total students, total time.__
 
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+![Flow chart of the bot.](https://github.com/Ashishamar99/Udemy-Sort-o-mate/blob/main/Flowchart%20with%20border.jpg)
