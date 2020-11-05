@@ -100,7 +100,8 @@ if __name__ == '__main__':
 	all_pages_list = my_account.fetch_all_pages(int(page) + 1)
 	all_courses_links,deleted_course_links,existing_course_links,image_to_details_dict = my_account.scrape_courses_links(all_pages_list)
 
-	"""Start Dev"""
+	"""Start Dev
+ 	Some random code to check if everything works. """
 	file_count = 0
 	my_file_counter = []
 	for file in os.listdir():
@@ -151,4 +152,11 @@ if __name__ == '__main__':
 	deleted_course_dictionary, existing_course_dictionary = scrape_course.fetch_link_info(filter_rating)
 
 	#Dumping the data to csv files
-	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)	
+	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)
+	
+	"""
+	TODO: 
+	* Needs a front end.
+	* Need to save the course_page_number so that this will not scrape the same info again and again.
+	* Need to add Multi-threading so that fetching the course pages will take less time.
+	"""
