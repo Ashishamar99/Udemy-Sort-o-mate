@@ -1,7 +1,7 @@
 from data import username, login_link, password, courses_link_sorted
 import time
 from itertools import zip_longest as zp
-from scrape_course import *
+from scrape_course import scrape_course, generate_csv
 
 # Trying to import modules, if missing then install them and import them again.
 for import_tries in range(0,2):
@@ -54,7 +54,6 @@ class account(init_driver):
 		return total_pages
 
 	def fetch_all_pages(self, total_pages):
-		driver = self.driver
 		all_pages_list = []
 		for page_number in range(1, total_pages):
 			all_pages_list.append(courses_link_sorted + str(page_number))
@@ -152,4 +151,4 @@ if __name__ == '__main__':
 	deleted_course_dictionary, existing_course_dictionary = scrape_course.fetch_link_info(filter_rating)
 
 	#Dumping the data to csv files
-	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)
+	generate_csv = generate_csv(deleted_course_dictionary, existing_course_dictionary)	
