@@ -158,5 +158,5 @@ if __name__ == '__main__':
 	TODO: 
 	* Needs a front end.
 	* Need to save the course_page_number so that this will not scrape the same info again and again.
-	* Need to add Multi-threading so that fetching the course pages will take less time.
+	* Need to add Multi-threading so that fetching the course pages will take less time. (threading)
 	"""
